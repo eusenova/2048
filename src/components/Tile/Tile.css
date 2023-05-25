@@ -1,0 +1,46 @@
+.x, .x2, .x4, .x8, .x16, .x32, .x64, .x128, .x256, .x512, .x1024, .x2048 {
+    border-radius: 1vmin;
+    border: rgba(238, 228, 218, 0.35);
+    font-size: 5.5vmin;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(238, 228, 218, 0.35);
+    color: #f9f6f2;
+}
+
+.x2, .x4 {
+    background: #eee4da;
+    color: #776e65;
+}
+.x4 {
+    background: #ede0c8;
+} 
+.x8 {
+    background: #f2b179;
+}
+.x16{
+    background: #f59563;
+}
+.x32{
+    background: #f67c5f;
+}
+.x64{
+    background: #f65e3b;
+}
+.x128{
+    background: #edcf72;
+}
+.x256{
+    background: #edcc61;
+}
+.x512{
+    background: #edc850;
+}
+.x1024{
+    background: #edc53f;
+}
+.x2048{
+    background: #edc22e;
+}

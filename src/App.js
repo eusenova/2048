@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Tile from "./components/Tile/Tile";
 import './App.css';
+import Modal from "./components/UI/Modal";
+import { resetGame } from "./store/actions/gameActions";
 
-function App() {
-  return (
+const App  = () => {
+  const game = useSelector(state => state.game.matrix);
+  const isWinning = useSelector(state => state.game.isWinning);
+  const dispatch = useDispatch();
+  const board = [...game[0],...game[1],...game[2],...game[3]];
+
+
+  
+  return (<>
+    <Modal show={isWinning}/>
+    <button className="reset-button button" type="button" onClick={()=> dispatch(resetGame())}>reset game</button>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {board.map((item, i)=>(<Tile key={i} num={item}/>))}
     </div>
+  </>
+      
   );
-}
+};
 
 export default App;
