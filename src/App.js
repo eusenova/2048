@@ -3,14 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import Tile from "./components/Tile/Tile";
 import './App.css';
 import Modal from "./components/UI/Modal";
-import { slideUp, clearGame, slideDown } from "./store/slices/gameSlice";
+import { slideUp, clearGame, slideDown, check, slideLeft, slideRight } from "./store/slices/gameSlice";
 
 const App  = () => {
   const game = useSelector(state => state.game.matrix);
   const isWinning = useSelector(state => state.game.isWinning);
   const dispatch = useDispatch();
   const board = [...game[0],...game[1],...game[2],...game[3]];
-
+  
+  useEffect(() => {
+    dispatch(check());
+  },[dispatch]);
   
   useEffect(() => {
     const keyHandler = e =>{
@@ -18,10 +21,15 @@ const App  = () => {
         case 'ArrowUp':
           dispatch(slideUp());
           break;
-          case 'ArrowDown':
-            dispatch(slideDown());
-            break;
-        
+        case 'ArrowDown':
+          dispatch(slideDown());
+          break;
+        case 'ArrowLeft':
+          dispatch(slideLeft());
+          break;
+        case 'ArrowRight':
+          dispatch(slideRight());
+          break;
         default:
           break;
       }

@@ -20,7 +20,7 @@ const filterZeros = arr => {
 };
 const has2048 = row => {
     for (let i = 0; i < row.length; i++) {
-            if(row[i]===8){
+            if(row[i]===2048){
                 return true;
             }
     }
@@ -72,6 +72,14 @@ const gameSlice = createSlice({
     name,
     initialState,
     reducers: {
+        check(state) {
+            const arr = [...state.matrix[0],...state.matrix[1],...state.matrix[2],...state.matrix[3]];
+            const length = arr.filter(i => i!==0).length;
+            if(!length){
+                setRandomNum(state);
+                setRandomNum(state);
+            }
+        },
         clearGame(state) {
                 state.matrix = [
                     [0,0,0,0],
@@ -83,6 +91,52 @@ const gameSlice = createSlice({
                 state.isWinning = false;
                 state.isLosing = false;
 
+        },
+        slideLeft(state){
+            if(!hasEmpty(state)){
+                state.isLosing=true;
+                state.isWinning=true;
+            }
+            let arr1 = current(state.matrix);
+            for (let r = 0; r < rows; r++) {
+                let row = state.matrix[r];
+                row = slide(row,state);
+                state.matrix[r] = row;
+            }
+            let arr2 = current(state.matrix);
+            let counter = 0;
+            for (let i = 0; i < columns; i++) {
+                if(arr1[i].toString()===arr2[i].toString()){
+                    counter++;
+                }
+            }
+            if (counter<4) {
+                setRandomNum(state); 
+            }
+        },
+        slideRight(state){
+            if(!hasEmpty(state)){
+                state.isLosing=true;
+                state.isWinning=true;
+            }
+            let arr1 = current(state.matrix);
+            for (let r = 0; r < rows; r++) {
+                let row = state.matrix[r];
+                row.reverse();
+                row = slide(row,state);
+                row.reverse();
+                state.matrix[r] = row;
+            }
+            let arr2 = current(state.matrix);
+            let counter = 0;
+            for (let i = 0; i < columns; i++) {
+                if(arr1[i].toString()===arr2[i].toString()){
+                    counter++;
+                }
+            }
+            if (counter<4) {
+                setRandomNum(state); 
+            }
         },
         slideUp(state){
             if(!hasEmpty(state)){
@@ -107,7 +161,7 @@ const gameSlice = createSlice({
                 }
             }
             if (counter!==4) {
-            setRandomNum(state); 
+                setRandomNum(state); 
             }
         },
         slideDown(state){
@@ -134,14 +188,17 @@ const gameSlice = createSlice({
                 }
             }
             if (counter!==4) {
-            setRandomNum(state); 
+                setRandomNum(state); 
             }
         },
     }
 });
 
 export const {
+    check,
     clearGame,
+    slideLeft,
+    slideRight,
     slideUp,
     slideDown
 } = gameSlice.actions;
