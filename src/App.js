@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Tile from "./components/Tile/Tile";
 import './App.css';
 import Modal from "./components/UI/Modal";
-import { resetGame } from "./store/actions/gameActions";
+import { slideUp, clearGame, slideDown } from "./store/slices/gameSlice";
 
 const App  = () => {
   const game = useSelector(state => state.game.matrix);
@@ -11,11 +11,30 @@ const App  = () => {
   const dispatch = useDispatch();
   const board = [...game[0],...game[1],...game[2],...game[3]];
 
-
+  
+  useEffect(() => {
+    const keyHandler = e =>{
+      switch (e.key) {
+        case 'ArrowUp':
+          dispatch(slideUp());
+          break;
+          case 'ArrowDown':
+            dispatch(slideDown());
+            break;
+        
+        default:
+          break;
+      }
+    }
+    window.addEventListener('keydown', keyHandler);
+    return () => {
+      window.removeEventListener('keydown', keyHandler);
+    };
+  }, [dispatch]);
   
   return (<>
-    <Modal show={isWinning}/>
-    <button className="reset-button button" type="button" onClick={()=> dispatch(resetGame())}>reset game</button>
+    <Modal show={isWinning} closed={()=> dispatch(clearGame())}/>
+    <button className="reset-button button" type="button" onClick={()=> dispatch(clearGame())}>reset game</button>
     <div className="App">
       {board.map((item, i)=>(<Tile key={i} num={item}/>))}
     </div>

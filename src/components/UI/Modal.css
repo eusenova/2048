@@ -20,6 +20,12 @@
     border-radius: 5px;
     background: #bbada0;
     color: white;
+    cursor: pointer;
+}
+
+.button:active, .button:focus{
+    border: none;
+    outline: none;
 }
 
 @media (min-width: 600px) {
