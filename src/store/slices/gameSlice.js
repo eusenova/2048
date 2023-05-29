@@ -20,7 +20,7 @@ const filterZeros = arr => {
 };
 const has2048 = row => {
     for (let i = 0; i < row.length; i++) {
-            if(row[i]===8){
+            if(row[i]===2048){
                 return true;
             }
     }
